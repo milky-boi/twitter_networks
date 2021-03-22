@@ -1,0 +1,7 @@
+community
+numpy
+pandas
+networkx
+matplotlib
+statistics 
+scipy
