@@ -13,25 +13,25 @@ import networkx as nx
 
 from datetime import datetime
 
-# def foo(G, created_at, tweet_id, user_id, mentioned_users_ids):
-#     for mentioned_user_id in mentioned_users_ids:
+# def fix_date(datetime_string):
+#     try:
+#         return datetime.strptime(datetime_string,'%a %b %d %H:%M:%S +0000 %Y')
 
-#         G.add_edge(user_id, mentioned_user_id, count=0, created_at=str(created_at), tweet_id=tweet_id)
-
-def fix_date(datetime_string):
-    try:
-        return datetime.strptime(datetime_string,'%a %b %d %H:%M:%S +0000 %Y')
-
-    except:
-        return np.nan
+#     except:
+#         return np.nan
 
 
-def fix_ids(id_to_check):
-    try:
-        return str(int(float(id_to_check)))
+# def fix_ids(id_to_check):
+#     try:
+#         return str(int(float(id_to_check)))
 
-    except:
-        return np.nan
+#     except:
+#         return np.nan
+
+def foo(G, created_at, tweet_id, user_id, reply_user_id_str):
+    
+    G.add_edge(user_id, reply_user_id_str, created_at=str(created_at), tweet_id=tweet_id)
+
 
 DATA_PATH = './0_data/user_reply/user_to_user.csv'
 
@@ -41,28 +41,18 @@ dtypes = {'created_at': str,
 'user_id': str
 }
 
-df = pd.read_csv(DATA_PATH, dtype = dtypes, index_col=0) 
+df = pd.read_csv(DATA_PATH, dtype = dtypes, index_col=0, nrows=100) 
 print(df.head())
 
 # df.columns = ['created_at', 'tweet_id', 'reply_user_id_str', 'user_id']
-
 # df['created_at'] = df['created_at'].apply(lambda x: fix_date(x))
 # df['reply_user_id_str'] = df['reply_user_id_str'].apply(lambda x: fix_ids(x))
 
-print(len(df))
+G = nx.MultiDiGraph()
 df = df.dropna()
-print(len(df))
+df.apply(lambda x : foo(G, x['created_at'], x['tweet_id'], x['user_id'], x['reply_user_id_str']), axis = 1) 
 
-print(df.head())
+print(G.number_of_nodes())
+print(G.number_of_edges())
 
-
-# df['mentioned_users_ids'] = df['mentioned_users_ids'].apply(lambda x: ast.literal_eval(x))
-
-# G = nx.MultiDiGraph()
-
-# df.apply(lambda x : foo(G, x['created_at'], x['tweet_id'], x['user_id'], x['mentioned_users_ids']), axis = 1) 
-
-# print(G.number_of_nodes())
-# print(G.number_of_edges())
-
-# nx.write_gml(G, "../2_pipeline/user_mentions.gml")
+nx.write_gml(G, "../2_pipeline/3_1_create_user_reply/user_reply_user_to_user.gml")
