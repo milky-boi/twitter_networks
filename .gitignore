@@ -38,9 +38,7 @@ pip-delete-this-directory.txt
 
 # Unit test / coverage reports
 0_data/
-2_pipeline/0_load_data
-2_pipeline/1_create_table
-2_pipeline/2_prepare_data_for_network
+2_pipeline/
 3_output/
 
 htmlcov/
