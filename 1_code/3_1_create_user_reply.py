@@ -41,7 +41,7 @@ dtypes = {'created_at': str,
 'user_id': str
 }
 
-df = pd.read_csv(DATA_PATH, dtype = dtypes, index_col=0, nrows=100) 
+df = pd.read_csv(DATA_PATH, dtype = dtypes, index_col=0) 
 print(df.head())
 
 # df.columns = ['created_at', 'tweet_id', 'reply_user_id_str', 'user_id']
@@ -55,4 +55,4 @@ df.apply(lambda x : foo(G, x['created_at'], x['tweet_id'], x['user_id'], x['repl
 print(G.number_of_nodes())
 print(G.number_of_edges())
 
-nx.write_gml(G, "../2_pipeline/3_1_create_user_reply/user_reply_user_to_user.gml")
+nx.write_gml(G, "/home/milky/infocov/twitter_networks/2_pipeline/3_1_create_user_reply/user_reply_user_to_user.gml")

@@ -15,7 +15,7 @@
 # +------------------+---------+---------+---------+
 # | #?NET. TYPE      | PREPROC | DATASET | NETWORK |
 # +==================+=========+=========+=========+
-# | #* REPLAYANJA    |    X    |    X    |         | user to user 1826436, tweet to tweet:1796202
+# | #* REPLAYANJA    |    X    |    X    |  X, X   | user to user 1826436, tweet to tweet:1796202
 # +------------------+---------+---------+---------+
 # | #* RETWEETANJA   |    x    |    X    |         | user_to_user: 1246933, tweet to tweet:1246448
 # +------------------+---------+---------+---------+
@@ -23,7 +23,7 @@
 # +------------------+---------+---------+---------+
 # | #* FOLOWANJA     |    x    |    x    |    x    | (MOZDA NOVI NETWORK)
 # +------------------+---------+---------+---------+
-# | #* USER MENTIONS |    X    |    X    |         | broj redaka:3215615
+# | #* USER MENTIONS |    X    |    X    |    X    | broj redaka:3215615
 # +------------------+---------+---------+---------+
 
 
@@ -37,7 +37,9 @@
 # print(df.user_mentions)
 
 #! PODACI ZA MREZA RETWEETANJA
-#? UVJET ZA STVARANJE MREZE: TWEET_2 ----RETWEETS----> TWEET_1
+
+
+#? UVJET ZA STVARANJE MREZE: TWEET_2(id)----RETWEETS----> TWEET_1(retweeted_status.id)
 # created_at
 # id
 # id_str

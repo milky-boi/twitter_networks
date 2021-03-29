@@ -24,17 +24,19 @@ import numpy as np
 # df.to_csv('/home/milky/infocov/dataset/user_reply/tweet_to_tweet.csv')
 
 
-#! PODACI ZA MREZE RETWEETANJA
-# path = '/home/milky/infocov/dataset/all_2020.csv' 
-#df = pd.read_csv(path, index_col=0, nrows=100)
+# #! PODACI ZA MREZE RETWEETANJA
+path = '/home/milky/infocov/dataset/all_2020.csv' 
+df = pd.read_csv(path, index_col=0) #, nrows=100
 
 # usecols=['id', 'created_at',
 #  'retweeted_status.id_str', 'retweeted_status.created_at'])
-# df = pd.read_csv(path, index_col=0, usecols=['id', 'created_at',
-# 'user.id_str', 'retweeted_status.created_at', 'retweeted_status.id_str'])
-# df =df.dropna()
-# print(len(df))
-# df.to_csv('/home/milky/infocov/dataset/user_retweet/user_to_user.csv')
+
+df = pd.read_csv(path, index_col=0, usecols=['created_at', 'id', 'user.id_str',
+ 'retweeted_status.created_at', 'retweeted_status.id_str', 'retweeted_status.user.id_str'])
+
+df =df.dropna()
+print(len(df))
+df.to_csv('/home/milky/infocov/dataset/user_retweet/tweet_to_tweet.csv')
 
 
 
@@ -156,42 +158,42 @@ import numpy as np
 
 
 
-#! CREATE NETWORKS 
+# #! CREATE NETWORKS 
 
-import ast
-import networkx as nx 
+# import ast
+# import networkx as nx 
 
-def add_nodes_from_list_to_graph(G, node_list):
+# def add_nodes_from_list_to_graph(G, node_list):
     
-    for node in node_list:
-        if node not in G:
-            G.add_node(node)
+#     for node in node_list:
+#         if node not in G:
+#             G.add_node(node)
 
-    for i in range(len(node_list)):
-        node_1 = node_list[i]
+#     for i in range(len(node_list)):
+#         node_1 = node_list[i]
 
-        for j in range(len(node_list)):
-            if i<j:
-                node_2 = node_list[j]
+#         for j in range(len(node_list)):
+#             if i<j:
+#                 node_2 = node_list[j]
 
-                if G.has_edge(node_1, node_2):
-                    G[node_1][node_2]['count'] +=1
+#                 if G.has_edge(node_1, node_2):
+#                     G[node_1][node_2]['count'] +=1
 
-                else:
-                    G.add_edge(node_1, node_2, count=1)
+#                 else:
+#                     G.add_edge(node_1, node_2, count=1)
 
-df = pd.read_csv('/home/milky/infocov/dataset/hashtags/all_hashtags_2020.csv', index_col=0)
-hashtags = df.mentioned_hashtags
+# df = pd.read_csv('/home/milky/infocov/dataset/hashtags/all_hashtags_2020.csv', index_col=0)
+# hashtags = df.mentioned_hashtags
 
-G = nx.Graph()
+# G = nx.Graph()
 
-for row in hashtags:
-    converted_list = row.strip('][').split(', ')
-    if len(converted_list) > 1:
-        add_nodes_from_list_to_graph(G, converted_list)
+# for row in hashtags:
+#     converted_list = row.strip('][').split(', ')
+#     if len(converted_list) > 1:
+#         add_nodes_from_list_to_graph(G, converted_list)
 
-name = '/home/milky/infocov/created_networks/hashtag_hashtag.gml'
-nx.write_gml(G, name)
+# name = '/home/milky/infocov/created_networks/hashtag_hashtag.gml'
+# nx.write_gml(G, name)
 
 
 

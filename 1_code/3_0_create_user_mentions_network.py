@@ -18,14 +18,14 @@ def foo(G, created_at, tweet_id, user_id, mentioned_users_ids):
         G.add_edge(user_id, mentioned_user_id, created_at=str(created_at), tweet_id=tweet_id)
 
 
-DATA_PATH = './0_data/user_mentions/user_mentions.csv'
+DATA_PATH = './0_data/user_mentions/tweet_to_tweet.csv'
 
 dtypes = {'created_at': str,
 'id': str,
 'user.id_str': str,
 'mentioned_users_ids': str}
 
-df = pd.read_csv(DATA_PATH, dtype = dtypes)
+df = pd.read_csv(DATA_PATH) # dtype = dtypes
 print(df.head(5))
 
 df.columns = ['created_at', 'tweet_id', 'user_id', 'mentioned_users_ids']
@@ -40,4 +40,4 @@ df.apply(lambda x : foo(G, x['created_at'], x['tweet_id'], x['user_id'], x['ment
 print(G.number_of_nodes())
 print(G.number_of_edges())
 
-nx.write_gml(G, "/home/milky/infocov/twitter_networks/2_pipeline/3_0_create_user_mentions_network/user_mentions.gml")
+# nx.write_gml(G, "/home/milky/infocov/twitter_networks/2_pipeline/3_0_create_user_mentions_network/user_mentions.gml")
