@@ -31,17 +31,21 @@ def create_network(G, row):
     retweeted_at = row['rt_created_at']
     tweet_created_at = row['ot_creation_time']
 
-    u = row['rt_id']
-    v = row['ot_id']
+    u = str(row['rt_id'])
+    v = str(row['ot_id'])
     
     u_user_id = row['ot_user_id']
     v_user_id = row['rt_user_id']
 
-    G.add_nodes_from([
-        (u, {"user_id": u_user_id}),
-        (v, {"user_id": v_user_id})])
+    # G.add_nodes_from([
+    #     (u, {"user_id": u_user_id}),
+    #     (v, {"user_id": v_user_id})])
+    
+    if G.has_edge(u, v):
+        pass
 
-    G.add_edge(u, v, created_at=str(tweet_created_at), retweeted_at=str(retweeted_at))
+    else:
+        G.add_edge(u, v, created_at=str(tweet_created_at), retweeted_at=str(retweeted_at))
 
 dtypes = {'created_at': str,
 'id': str,
