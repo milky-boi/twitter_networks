@@ -26,18 +26,22 @@ def fix_ids(id_to_check):
 
 ['rt_created_at', 'rt_id', 'rt_user_id',
  'ot_creation_time', 'ot_id', 'ot_user_id']
- 
-def create_network(G, row):
-    row['created_at']
-    row['rt_id']
 
-    u = row['ot_user_id']
-    v = row['user_id']
+def create_network(G, row):
+    retweeted_at = row['rt_created_at']
+    tweet_created_at = row['ot_creation_time']
+
+    u = row['rt_id']
+    v = row['ot_id']
     
-    row['ot_creation_time']
-    
-    G.add_node( )
-    G.add_edge(user_id, reply_user_id_str, created_at=str(created_at), tweet_id=tweet_id)
+    u_user_id = row['ot_user_id']
+    v_user_id = row['rt_user_id']
+
+    G.add_nodes_from([
+        (u, {"user_id": u_user_id}),
+        (v, {"user_id": v_user_id})])
+
+    G.add_edge(u, v, created_at=str(tweet_created_at), retweeted_at=str(retweeted_at))
 
 dtypes = {'created_at': str,
 'id': str,
@@ -49,6 +53,7 @@ dtypes = {'created_at': str,
 #DATA_PATH = './0_data/user_reply/user_to_user.csv'
 DATA_PATH = '/home/milky/infocov/dataset/user_retweet/tweet_to_tweet.csv'
 df = pd.read_csv(DATA_PATH, dtype = dtypes) 
+print("number of rows:" + str(len(df)))
 
 df.columns = ['rt_created_at', 'rt_id', 'rt_user_id',
  'ot_creation_time', 'ot_id', 'ot_user_id']
@@ -59,12 +64,13 @@ df['ot_creation_time'] = df['ot_creation_time'].apply(lambda x: fix_date(x))
 df['rt_id'] = df['rt_id'].apply(lambda x: fix_ids(x))
 df['ot_id'] = df['ot_id'].apply(lambda x: fix_ids(x))
 
-G = nx.DiGraph()
 df = df.dropna()
+
+G = nx.DiGraph()
 
 df.apply(lambda row : create_network(G, row), axis = 1) 
 
-# print(G.number_of_nodes())
-# print(G.number_of_edges())
+print(G.number_of_nodes())
+print(G.number_of_edges())
 
-# nx.write_gml(G, "/home/milky/infocov/twitter_networks/2_pipeline/3_2_create_user_retweet/user_retweet.gml")
+nx.write_gml(G, "/home/milky/infocov/twitter_networks/2_pipeline/3_2_create_retweet/user_retweet.gml")
